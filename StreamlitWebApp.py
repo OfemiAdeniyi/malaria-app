@@ -201,7 +201,7 @@ if uploaded_file is None:
     st.markdown(
         """
         <div class="card">
-            <h3 style="margin-top:0;color:{BRAND_COLOR};">Get started</h3>
+            <h3 style="margin-top:0;color:#374151;">Get started</h3>
             <p style="color:#374151;">
                 Upload a crop of a blood-smear slide (single-cell or small patch). The app processes the image and
                 returns the predicted label and confidence. Use the debug toggle in the sidebar to inspect preprocessing ranges.
@@ -279,7 +279,7 @@ else:
         # quick metadata
         st.write("")
         st.write("**Prediction**")
-        st.markdown(f"<div style='font-size:18px; font-weight:700; color:{BRAND_COLOR};'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size:18px; font-weight:700; color:#374151;'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
         st.write(f"Confidence: **{confidence:.2f}%**")
         st.progress(min(max(float(confidence) / 100.0, 0.0), 1.0))
 
