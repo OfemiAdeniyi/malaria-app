@@ -109,7 +109,7 @@ st.caption("Tip: For best results upload clear 180×180+ crop of a single cell r
 
 @st.cache_resource
 def load_model(path: str):
-try:
+    try:
 model = tf.keras.models.load_model(path)
 return model
 except Exception as e:
