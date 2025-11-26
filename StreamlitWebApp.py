@@ -9,10 +9,11 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 
 # Branding 
 BRAND_NAME = "SlideLab AI"
-BRAND_COLOR = "#0077B6"       
-ACCENT_COLOR = "#90EE90"
-BG_GRAY = "#1A1A1A"   # Dark background for white text
-TEXT_MUTED = "#CCCCCC"
+BRAND_COLOR = "#0077B6"       # primary color
+ACCENT_COLOR = "#90EE90"      # secondary color
+BG_WHITE = "#FFFFFF"          # white background
+TEXT_DARK = "#111111"         # dark text for readability
+TEXT_MUTED = "#4B5563"        # muted gray text
 IMAGE_DISPLAY_WIDTH = 500
 IMG_SIZE = 180
 
@@ -27,14 +28,15 @@ st.set_page_config(
 st.markdown(
     f"""
     <style>
-    /* GLOBAL — make all text white */
+    /* Global text color */
     html, body, .stApp, div, p, span, label, h1, h2, h3, h4, h5, h6 {{
-        color: #FFFFFF !important;
+        color: {TEXT_DARK} !important;
+        background-color: {BG_WHITE};
     }}
 
     /* Page background */
     .stApp {{
-        background-color: {BG_GRAY};
+        background-color: {BG_WHITE};
     }}
 
     /* Header Title */
@@ -58,34 +60,35 @@ st.markdown(
 
     /* Cards */
     .card {{
-        background: rgba(255,255,255,0.05);
+        background: {BG_WHITE};
         border-radius: 10px;
         padding: 14px;
-        box-shadow: 0 1px 4px rgba(16,24,40,0.12);
-        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 1px 4px rgba(16,24,40,0.06);
+        border: 1px solid rgba(16,24,40,0.1);
     }}
 
     /* Debug cards */
     .debug-card {{
-        background: rgba(255,255,255,0.1);
+        background: #F3F4F6;
         border-radius: 8px;
         padding: 10px;
         text-align: center;
-        border: 1px solid rgba(255,255,255,0.2);
-        color: #FFFFFF !important;
+        border: 1px solid rgba(16,24,40,0.1);
+        color: {TEXT_DARK} !important;
     }}
 
     /* Footer text */
     .footer {{
-        color: #DDDDDD !important;
+        color: {TEXT_MUTED};
         font-size:12px;
         padding-top:10px;
         padding-bottom:30px;
     }}
 
-    /* Sidebar text forced to white */
+    /* Sidebar text */
     section[data-testid="stSidebar"] div, section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] span {{
-        color: white !important;
+        color: {TEXT_DARK} !important;
+        background-color: {BG_WHITE} !important;
     }}
 
     /* Hide Streamlit default menu */
@@ -143,7 +146,6 @@ def preprocess_image(uploaded_file, show_debug: bool = False):
     img = tf.image.resize(img, (IMG_SIZE, IMG_SIZE))
     img = tf.cast(img, tf.float32)
 
-    # manual normalization & standard preprocess
     img_manual = (img / 127.5) - 1.0
     img_pre = preprocess_input(img)
     img_pre = tf.expand_dims(img_pre, 0)
@@ -189,7 +191,7 @@ st.markdown(
           <div style="font-weight:700;color:{BRAND_COLOR}; margin-top:6px;">
             {"Loaded" if model is not None else "Not loaded"}
           </div>
-          <div style="font-size:12px;color:#9CA3AF;margin-top:8px;">Updated: {datetime.datetime.now().strftime("%Y-%m-%d")}</div>
+          <div style="font-size:12px;color:{TEXT_MUTED};margin-top:8px;">Updated: {datetime.datetime.now().strftime("%Y-%m-%d")}</div>
         </div>
       </div>
     </div>
