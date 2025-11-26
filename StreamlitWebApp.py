@@ -52,7 +52,7 @@ st.markdown(
 
     /* Card style */
     .card {{
-        background: white;
+        background: grey;
         border-radius: 10px;
         padding: 14px;
         box-shadow: 0 1px 4px rgba(16,24,40,0.06);
