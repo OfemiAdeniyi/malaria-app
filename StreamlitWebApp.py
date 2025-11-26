@@ -269,52 +269,53 @@ else:
     confidence = float(preds_list[top_index] * 100.0)
 
     # Results layout
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    colA, colB = st.columns([1, 1])
+st.markdown('<div class="card" style="color:{0};">'.format(TEXT_COLOR), unsafe_allow_html=True)
+colA, colB = st.columns([1, 1])
 
-    with colA:
-        # image preview on left
-        st.image(display_img, caption="Uploaded Cell Image", width=IMAGE_DISPLAY_WIDTH, use_column_width=False)
+with colA:
+    # Image preview
+    st.image(display_img, caption="Uploaded Cell Image", width=IMAGE_DISPLAY_WIDTH, use_column_width=False)
 
-        # quick metadata
-        st.write("")
-        st.write("**Prediction**")
-        st.markdown(f"<div style='font-size:18px; font-weight:700; color:#374151;'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
-        st.write(f"Confidence: **{confidence:.2f}%**")
-        st.progress(min(max(float(confidence) / 100.0, 0.0), 1.0))
+    # Prediction summary
+    st.write("")
+    st.write("**Prediction**")
+    st.markdown(f"<div style='font-size:18px; font-weight:700; color:{BRAND_COLOR};'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
+    st.write(f"Confidence: **{confidence:.2f}%**")
+    st.progress(min(max(float(confidence) / 100.0, 0.0), 1.0))
 
-    with colB:
-        # probabilities and action area on right
-        st.subheader("Prediction details")
-        st.write("Raw probabilities (class → value):")
-        st.json({CLASS_NAMES[i]: preds_list[i] for i in range(len(preds_list))})
+with colB:
+    st.subheader("Prediction details")
+    st.write("Raw probabilities (class → value):")
+    st.json({CLASS_NAMES[i]: probs[i] for i in range(len(probs))})
 
-        st.write("")  # spacing
-        st.markdown("### Model information")
-        st.write(f"**Model path:** `{MODEL_PATH}`")
-        st.write("**Architecture:** EfficientNetB0 (expected)")
-        st.write(f"**Input size:** {IMG_SIZE} × {IMG_SIZE}")
-        st.write(f"**Inferred at:** {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    st.write("")  # spacing
+    st.markdown("### Model information")
+    st.write(f"**Model path:** `{MODEL_PATH}`")
+    st.write("**Architecture:** EfficientNetB0 (expected)")
+    st.write(f"**Input size:** {IMG_SIZE} × {IMG_SIZE}")
+    st.write(f"**Inferred at:** {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
-        st.write("")  # spacing
-        st.markdown("### Actions")
-        col_btn1, col_btn2 = st.columns([1, 1])
-        with col_btn1:
-            if st.button("Download result summary"):
-                # create a small result text and allow download
-                result_txt = (
-                    f"SlideLab AI result\n"
-                    f"Predicted: {predicted_label}\n"
-                    f"Confidence: {confidence:.2f}%\n"
-                    f"Timestamp: {datetime.datetime.now().isoformat()}\n"
-                )
-                st.download_button("Download .txt", result_txt, file_name="slidelab_result.txt")
-        with col_btn2:
-            st.write("")  # placeholder for spacing
-            st.write("") 
-            st.markdown(f"<small style='color:{TEXT_MUTED}'>Model ready for inference.</small>", unsafe_allow_html=True)
+    st.write("")  # spacing
+    st.markdown("### Actions")
+    col_btn1, col_btn2 = st.columns([1, 1])
+    with col_btn1:
+        st.download_button(
+            "Download result summary",
+            data=(
+                f"SlideLab AI result\n"
+                f"Predicted: {predicted_label}\n"
+                f"Confidence: {confidence:.2f}%\n"
+                f"Timestamp: {datetime.datetime.now().isoformat()}\n"
+            ),
+            file_name="slidelab_result.txt",
+            mime="text/plain"
+        )
+    with col_btn2:
+        st.write("")  # spacing placeholder
+        st.markdown(f"<small style='color:{TEXT_MUTED}'>Model ready for inference.</small>", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
 
 # Footer 
 st.markdown(
