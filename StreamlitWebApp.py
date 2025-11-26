@@ -172,7 +172,8 @@ st.markdown(
 )
 
 # File uploader
-uploaded_file = st.file_uploader("Upload a blood-smear image (jpg, png)", type=["jpg","jpeg","png"])
+st.markdown(f"<p style='color:{BRAND_COLOR}; font-weight:600;'>Upload a blood-smear image (jpg, png)</p>", unsafe_allow_html=True)
+
 
 # Main content
 if uploaded_file is None:
