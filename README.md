@@ -33,11 +33,11 @@ Architecture: EfficientNetB0
 Classes: parasitized, uninfected
 Input size: 180×180 pixels
 Preprocessing: tf.keras.applications.efficientnet.preprocess_input
-<img width="1552" height="1172" alt="confusion_matrix" src="https://github.com/user-attachments/assets/a50c34f1-8181-40fa-9d4d-8d6fcfe9382f" />
+<img width="400" height="300" alt="confusion_matrix" src="https://github.com/user-attachments/assets/a50c34f1-8181-40fa-9d4d-8d6fcfe9382f" />
 
-<img width="1646" height="1172" alt="probabilities_histogram" src="https://github.com/user-attachments/assets/bd2988e1-5eea-4a5f-90f0-785e96ba66b8" />
+<img width="400" height="300" alt="probabilities_histogram" src="https://github.com/user-attachments/assets/bd2988e1-5eea-4a5f-90f0-785e96ba66b8" />
 
-<img width="1607" height="1172" alt="roc_curve" src="https://github.com/user-attachments/assets/3dd76a57-c748-478e-90b1-adc46832118c" />
+<img width="400" height="300" alt="roc_curve" src="https://github.com/user-attachments/assets/3dd76a57-c748-478e-90b1-adc46832118c" />
 
 
 ### Impact
