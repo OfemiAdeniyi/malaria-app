@@ -24,7 +24,7 @@ SlideLab **AI is an AI-powered microscopy platform** designed to assist healthca
 ### Dataset Description
 We used the publicly available malaria blood-smear image dataset from the Lister Hill National Center for Biomedical Communications (LHNCBC) at the U.S. National Library of Medicine. This dataset contains thin and thick blood-smear microscopy images from both infected and uninfected patients, with expert-annotated labels identifying parasitized and healthy red blood cells. The images are anonymized and collected under real clinical conditions, making them highly representative of what diagnostic labs encounter in malaria-endemic regions. By leveraging this dataset, SlideLab AI trained and evaluated AI models to accurately classify blood-smear images, distinguishing infected cells from healthy ones and enabling reliable AI-assisted malaria diagnostics.
 
-### Model
+### Model and Evaluation Metrics
 
 Architecture: EfficientNetB0
 
