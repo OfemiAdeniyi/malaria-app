@@ -220,7 +220,7 @@ else:
     with colA:
         # Image preview
         st.image(display_img, caption="Uploaded Cell Image", width=IMAGE_DISPLAY_WIDTH)
-        st.write(" ")
+        st.write("   ")
         st.write("**Prediction**")
         st.markdown(f"<div style='font-size:18px; font-weight:700; color:{BRAND_COLOR};'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
         st.write(f"Confidence: **{confidence:.2f}%**")
@@ -231,14 +231,14 @@ else:
         st.write("Raw probabilities (class → value):")
         st.json({CLASS_NAMES[i]: probs[i] for i in range(len(probs))})
 
-        st.write(" ")  # spacing
+        st.write("   ")  # spacing
         st.markdown("### Model information")
         st.write(f"**Model path:** `{MODEL_PATH}`")
         st.write("**Architecture:** EfficientNetB0 (expected)")
         st.write(f"**Input size:** {IMG_SIZE} × {IMG_SIZE}")
         st.write(f"**Inferred at:** {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
-        st.write(" ")  # spacing
+        st.write("   ")  # spacing
         st.markdown("### Actions")
         col_btn1, col_btn2 = st.columns([1, 1])
         with col_btn1:
