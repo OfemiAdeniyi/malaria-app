@@ -2,10 +2,10 @@
 
 Track: Health & Public Safety
 Team: 
-Adeniyi Micheal Oluwafemi, Fellow ID:
-Ifeanyi Hyacint Muotoe, Fellow ID:
-Olutunde Stephen Anuoluwa, Fellow ID:
-Lead: Adeniyi Micheal Oluwafemi
+1. Adeniyi Micheal Oluwafemi, Fellow ID:
+2. Ifeanyi Hyacint Muotoe, Fellow ID:
+3. Olutunde Stephen Anuoluwa, Fellow ID:
+*Lead: Adeniyi Micheal Oluwafemi*
 Contact: oluwafemiadeniyi772@gmail.com
 
 ### Overview
