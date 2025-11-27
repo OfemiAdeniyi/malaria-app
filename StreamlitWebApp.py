@@ -179,90 +179,101 @@ def preprocess_image(uploaded_file, show_debug=False):
 
     return img_pre, display_img
 
-```
-
 # Header
-
 st.markdown(
-f""" <div class="card" style="margin-bottom:14px;"> <div style="display:flex; align-items:center; gap:18px;"> <div style="flex:1;"> <h1 class="brand-title">🔬 {BRAND_NAME}</h1> <div class="brand-sub">NTD Vision — AI-assisted slide microscopy for malaria & beyond</div> </div> <div style="text-align:right;"> <div style="font-size:13px;color:{TEXT_MUTED}">Model status</div> <div style="font-weight:700;color:{BRAND_COLOR}; margin-top:6px;">
-{"Loaded" if model is not None else "Not loaded"} </div> <div style="font-size:12px;color:{TEXT_MUTED};margin-top:8px;">Updated: {datetime.datetime.now().strftime("%Y-%m-%d")}</div> </div> </div> </div>
-""",
-unsafe_allow_html=True,
+    f"""
+    <div class="card" style="margin-bottom:14px;">
+      <div style="display:flex; align-items:center; gap:18px;">
+        <div style="flex:1;">
+          <h1 class="brand-title">🔬 {BRAND_NAME}</h1>
+          <div class="brand-sub">NTD Vision — AI-assisted slide microscopy for malaria & beyond</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:13px;color:{TEXT_MUTED}">Model status</div>
+          <div style="font-weight:700;color:{BRAND_COLOR}; margin-top:6px;">
+            {"Loaded" if model is not None else "Not loaded"}
+          </div>
+          <div style="font-size:12px;color:{TEXT_MUTED};margin-top:8px;">Updated: {datetime.datetime.now().strftime("%Y-%m-%d")}</div>
+        </div>
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 # Styled file uploader label
-
 st.markdown(f"<p style='color:{BRAND_COLOR}; font-weight:600;'>Upload a blood-smear image (jpg, png)</p>", unsafe_allow_html=True)
 uploaded_file = st.file_uploader("", type=["jpg","jpeg","png"])
 
 # Main content
-
 if uploaded_file is None:
-st.markdown(
-f""" <div class="card"> <h3>Get started</h3> <p>Upload a blood-smear crop (180×180+) to see AI predictions.</p> </div>
-""",
-unsafe_allow_html=True,
-)
+    st.markdown(
+        f"""
+        <div class="card">
+            <h3>Get started</h3>
+            <p>Upload a blood-smear crop (180×180+) to see AI predictions.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 else:
-if model is None:
-st.error("Model not loaded. Check path.")
-st.stop()
+    if model is None:
+        st.error("Model not loaded. Check path.")
+        st.stop()
 
-```
-img_tensor, display_img = preprocess_image(uploaded_file, show_debug=debug_mode)
+    img_tensor, display_img = preprocess_image(uploaded_file, show_debug=debug_mode)
 
-with st.spinner("Analyzing slide with SlideLab AI..."):
-    raw_preds = model.predict(img_tensor)
+    with st.spinner("Analyzing slide with SlideLab AI..."):
+        raw_preds = model.predict(img_tensor)
 
-# Process prediction
-preds_arr = np.asarray(raw_preds)
-if preds_arr.ndim == 2 and preds_arr.shape[1] == 2:
-    probs = preds_arr[0].astype(float).tolist()
-elif preds_arr.ndim == 1 and preds_arr.size == 2:
-    probs = preds_arr.astype(float).tolist()
-elif preds_arr.size == 1:
-    p = float(np.squeeze(preds_arr))
-    probs = [1.0 - p, p]
-else:
-    flat = preds_arr.flatten()
-    probs = flat[:2].astype(float).tolist() if flat.size>=2 else [0.5,0.5]
+    # Process prediction
+    preds_arr = np.asarray(raw_preds)
+    if preds_arr.ndim == 2 and preds_arr.shape[1] == 2:
+        probs = preds_arr[0].astype(float).tolist()
+    elif preds_arr.ndim == 1 and preds_arr.size == 2:
+        probs = preds_arr.astype(float).tolist()
+    elif preds_arr.size == 1:
+        p = float(np.squeeze(preds_arr))
+        probs = [1.0 - p, p]
+    else:
+        flat = preds_arr.flatten()
+        probs = flat[:2].astype(float).tolist() if flat.size >= 2 else [0.5, 0.5]
 
-top_index = int(np.argmax(probs))
-predicted_label = CLASS_NAMES[top_index]
-confidence = float(probs[top_index]*100.0)
+    top_index = int(np.argmax(probs))
+    predicted_label = CLASS_NAMES[top_index]
+    confidence = float(probs[top_index] * 100.0)
 
-# Result layout
-st.markdown('<div class="card">', unsafe_allow_html=True)
-colA, colB = st.columns([1,1])
+    # Result layout
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    colA, colB = st.columns([1,1])
 
-with colA:
-    st.write("")  # add spacing above image
-    st.write("")
-    st.image(display_img, caption="Uploaded Cell Image", width=IMAGE_DISPLAY_WIDTH)
+    with colA:
+        st.write("")  # add spacing above image
+        st.write("")
+        st.image(display_img, caption="Uploaded Cell Image", width=IMAGE_DISPLAY_WIDTH)
 
-with colB:
-    st.write("**Prediction**")
-    st.markdown(f"<div style='font-size:18px; font-weight:700; color:{BRAND_COLOR};'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
-    st.write(f"Confidence: **{confidence:.2f}%**")
+    with colB:
+        st.write("**Prediction**")
+        st.markdown(f"<div style='font-size:18px; font-weight:700; color:{BRAND_COLOR};'>{predicted_label.upper()}</div>", unsafe_allow_html=True)
+        st.write(f"Confidence: **{confidence:.2f}%**")
 
-    # Probability details
-    st.markdown('<div class="prob-card">', unsafe_allow_html=True)
-    st.subheader("Prediction details")
-    st.write("Raw probabilities (class → value):")
-    st.json({CLASS_NAMES[i]: probs[i] for i in range(len(probs))})
+        # Probability details
+        st.markdown('<div class="prob-card">', unsafe_allow_html=True)
+        st.subheader("Prediction details")
+        st.write("Raw probabilities (class → value):")
+        st.json({CLASS_NAMES[i]: probs[i] for i in range(len(probs))})
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Download result
+        st.markdown('<div class="btn-container">', unsafe_allow_html=True)
+        if st.button("Download result summary"):
+            result_txt = (
+                f"SlideLab AI result\n"
+                f"Predicted: {predicted_label}\n"
+                f"Confidence: {confidence:.2f}%\n"
+                f"Timestamp: {datetime.datetime.now().isoformat()}\n"
+            )
+            st.download_button("Download .txt", result_txt, file_name="slidelab_result.txt")
+        st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
-
-    # Download result
-    st.markdown('<div class="btn-container">', unsafe_allow_html=True)
-    if st.button("Download result summary"):
-        result_txt = (
-            f"SlideLab AI result\n"
-            f"Predicted: {predicted_label}\n"
-            f"Confidence: {confidence:.2f}%\n"
-            f"Timestamp: {datetime.datetime.now().isoformat()}\n"
-        )
-        st.download_button("Download .txt", result_txt, file_name="slidelab_result.txt")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
-```
