@@ -74,9 +74,6 @@ During development, standard evaluation tools (confusion matrix, ROC curve, prob
 
 Current repository layout:
 
-- `.gitattributes`  
-  Configuration for Git (including LFS for large files such as the model).
-
 - `Malaria_Cell_Classification_Model.h5`  
   Trained malaria cell classification model.
 
@@ -102,8 +99,8 @@ Current repository layout:
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repo-url>
-   cd <your-repo-folder>
+   git clone https://github.com/OfemiAdeniyi/malaria-app.git
+   cd malaria-app
    ```
 
 2. **Create and activate a virtual environment (optional but recommended)**
